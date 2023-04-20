@@ -20,33 +20,10 @@ select ProductName,UnitsInStock,UnitsOnOrder, ReorderLevel,Discontinued from Pro
 select ProductName,UnitsInStock,UnitsOnOrder, ReorderLevel,Discontinued from Products where (UnitsInStock+UnitsOnOrder)<=ReorderLevel and Discontinued=0
 --24 Showing customers list by region 
 
-Select T.CustomerID, T.CompanyName, T.Region
-from
-    (Select CustomerID, CompanyName, Region,
-            Case when Region is null then 1 else 0 End As SortField
-    from Customers) AS T
-order by T.SortField, T.Region, T.CustomerID
-
-Select CustomerID, CompanyName, Region,
-            Case when Region is null then 1 else 0 End As SortField
-    from Customers
-
-
-
-select CustomerID,CompanyName,Region,
-case when Region  is null then 1 else 0 end  from Customers
-
-
-
-
-
-
-
-
-
-
-
-
+select t.CustomerID,t.CompanyName,t.Region from 
+(select CustomerID,CompanyName,Region,
+	case when region is null then 1 else 0 end as sortRegion 
+from Customers ) as t order by  t.sortRegion,t.Region
 
 select  ProductName, categorie= 
 case CategoryID
@@ -69,3 +46,21 @@ when 3 then 'Federal Shipping'
 else 'Não possui'
 end,count(*) as total
 FROM Orders group by ShipVia order by total desc
+
+--25 Showing the three ship countries with the highest average freight 
+
+select top 3 avg(Freight) as md,ShipCountry from Orders group by ShipCountry order by md desc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
